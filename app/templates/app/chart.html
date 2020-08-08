@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{%block title %}Datas{% endblock title %}
+
+{% block bar %}
+    <canvas id="myBar"></canvas>
+{% endblock bar %}
+
+{% block line %}
+    <canvas id="myLine"></canvas>
+{% endblock line %}
+
+{% block pie %}
+    <canvas id="myPie"></canvas>
+{% endblock pie %}
+
+{% block scatter %}
+    <canvas id="myScatter"></canvas>
+{% endblock scatter %}
+
+{% block bubble %}
+    <canvas id="mypolarArea"></canvas>
+{% endblock bubble %}
+
+{%block scripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            let bar = document.getElementById('myBar').getContext('2d');
+            let myBar = new Chart(bar, {
+                type: {% for item in type %}'{{ item.chartType }}',{% endfor %}
+                data: {
+                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                    datasets: [{
+                        label: {% for item in name %}'{{ item.name }}'{%endfor%},
+                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        backgroundColor: [
+                            {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
+                        ],
+                        borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
+                        borderWidth: 1,
+                        
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            let line = document.getElementById('myLine').getContext('2d');
+            let myLine = new Chart(line, {
+                type: 'line',
+                data: {
+                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                    datasets: [{
+                        label: {% for item in name %}'{{ item.name }}'{%endfor%},
+                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        backgroundColor: [
+                            '#2ec4b6'
+                        ],
+                        borderColor: '#e71d36',
+                        pointBorderWidth: 10,
+                        pointHitRadius: 60,
+                        pointBorderColor: '#ff9f1c',
+                        hoverBackgroundColor: '#e71d36',
+                        hoverBorderWidth: 15,
+                        pointStyle: 'rectRot',
+                        
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                stacked: true
+                            }
+                        }]
+                    }
+                }
+            });
+            let pie = document.getElementById('myPie').getContext('2d');
+            let myPie = new Chart(pie, {
+                type: 'pie',
+                data: {
+                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                    datasets: [{
+                        label: {% for item in name %}'{{ item.name }}'{%endfor%},
+                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        backgroundColor: [
+                            {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
+                        ],
+                        borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            let polarArea = document.getElementById('mypolarArea').getContext('2d');
+            let mypolarArea= new Chart(polarArea, {
+                type: 'polarArea',
+                data: {
+                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                    datasets: [{
+                        label: {% for item in name %}'{{ item.name }}'{%endfor%},
+                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        backgroundColor: [
+                            {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
+                        ],
+                        borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
+                        borderWidth: 1,
+                        
+                    }]
+                },
+                options: {
+                    animation: {
+                        animateRotate: true
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            let scatter = document.getElementById('myScatter').getContext('2d');
+            let myScatter = new Chart(scatter, {
+                type: 'bar',
+                data: {
+                    datasets: [{
+                        label: 'Bar Dataset',
+                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        // this dataset is drawn below
+                        backgroundColor: [
+                            {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
+                        ],
+                        order: 1
+                    }, {
+                        label: 'Line Dataset',
+                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        type: 'line',
+                        // this dataset is drawn on top
+                        backgroundColor: [
+                            'rgba(29, 210, 255, 0.364)'
+                        ],
+                        order: 2
+                    }],
+                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                },
+                // type: 'scatter',
+                // data: {
+                //     labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                //     datasets: [{
+                //         label: {% for item in name %}'{{ item.name }}'{%endfor%},
+                //         data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        // backgroundColor: [
+                        //     {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
+                        // ],
+                        // borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
+                //         borderWidth: 3
+                //     }]
+                // },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            
+        });
+    </script>
+{% endblock scripts %}
