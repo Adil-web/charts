@@ -19,5 +19,6 @@ from app.views import ChartView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Загрузка нашего ChartView в views.py
     path('', ChartView.as_view(), name='home')
 ]

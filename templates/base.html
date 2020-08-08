@@ -5,52 +5,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://wordassociations.net/image/200x/svg_to_png/jean_victor_balin_graphics_rounded.png" type="image/x-icon">
+    <!-- Иконки material-icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Бутстрап -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Стили из папки static -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Chart js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
-    <title>{%block title %}{% endblock title %}</title>
+    <title>{%for title in name%}{{title.name}}{%endfor%}</title>
 </head>
 <body>
     <div class="container">
         <div class="col-10 mx-auto">
+            <!-- Таббер -->
             <div class="tabs">
+
                 <div class="tab__nav tabs-nav">
-                    <div class="tab-nav__item is-active" data-tab-name="bar"><span class="material-icons">
-                        bar_chart
-                        </span></div>
+
+                    <div class="tab-nav__item is-active" data-tab-name="bar">
+                        <span class="material-icons">bar_chart</span>
+                    </div>
+
                     <div class="tab-nav__item" data-tab-name="line">
-                        <span class="material-icons">
-                        show_chart
-                        </span></div>
-                    <div class="tab-nav__item" data-tab-name="pie"><span class="material-icons">
-                        donut_large
-                        </span></div>
-                    <div class="tab-nav__item" data-tab-name="mixed"><span class="material-icons">
-                        multiline_chart
-                        </span></div>
+                        <span class="material-icons">show_chart</span>
+                    </div>
+
+                    <div class="tab-nav__item" data-tab-name="pie">
+                        <span class="material-icons">donut_large</span>
+                    </div>
+
+                    <div class="tab-nav__item" data-tab-name="mixed">
+                        <span class="material-icons"> multiline_chart</span>
+                    </div>
+
                 </div>
-                <div class="tab line">
-                    {%block line %}{% endblock line %}
-                </div>
-                <div class="tab is-active bar">
-                    
-                    {%block bar %}{% endblock bar %}
-                </div>
+            <!-- Канвасы с id из chart.html -->
+                <div class="tab line">{%block line %}{% endblock line %}</div>
+                <div class="tab is-active bar">{%block bar %}{% endblock bar %}</div>
                 <div class="tab pie">{%block pie %}{% endblock pie %}</div>
                 <div class="tab mixed">{%block scatter %}{% endblock scatter %}</div>
-                </div>
+
+            </div>
+
             
         </div>
+        <!-- Кнопки -->
         <div class="col-md-6 offset-md-4" style="padding-bottom: 20px;">
             <button class="btn btn-success three">3 months</button>
-            <button class="btn btn-success six">6 months</button>
-            <button class="btn btn-success twelve">12 months</button>
+            <button class="btn btn-warning six">6 months</button>
+            <button class="btn btn-danger twelve">12 months</button>
         </div>
     </div>
-
+    <!-- Скрипты из chart.html -->
     {%block scripts %}{% endblock scripts %}
+
+    <!-- Скрипт main.js для табберов -->
     <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

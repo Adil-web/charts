@@ -1,5 +1,5 @@
-{% extends 'base.html' %}
-{%block title %}Charts{% endblock title %}
+{% extends 'base.html' %} <!--Импорт из base.html -->
+{%block title %}{% endblock title %}
 
 {% block bar %}
     <canvas id="myBar"></canvas>
@@ -14,26 +14,27 @@
 {% endblock pie %}
 
 {% block scatter %}
-    <canvas id="myScatter"></canvas>
+    <canvas id="myMixed"></canvas>
 {% endblock scatter %}
 
 {%block scripts %}
     <script>
+        // Chart элемент BAR
         document.addEventListener("DOMContentLoaded", function(event) { 
             let bar = document.getElementById('myBar').getContext('2d');
             let myBar = new Chart(bar, {
+                // Цикл for для перебора данных из views.py
                 type: {% for item in type %}'{{ item.chartType }}',{% endfor %}
                 data: {
-                    labels: ["January", "February", "March"],
+                    labels: [{% for item in threedata %}'{{ item.labels }}',{% endfor %}],
                     datasets: [{
                         label: {% for item in name %}'{{ item.name }}'{%endfor%},
-                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        data: [{% for item in twelvedata %}'{{ item.data }}',{% endfor %}],
                         backgroundColor: [
-                            {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
+                            {% for item in otherdata %}'{{ item.backgroundColor }}',{% endfor %}
                         ],
-                        borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
+                        borderColor: [{% for item in otherdata %}'{{ item.borderColor }}',{% endfor %}],
                         borderWidth: 1,
-                        
                     }]
                 },
                 options: {
@@ -46,15 +47,15 @@
                     }
                 }
             });
-            
+            // Chart элемент LINE
             let line = document.getElementById('myLine').getContext('2d');
             let myLine = new Chart(line, {
                 type: 'line',
                 data: {
-                    labels: ["January", "February", "March"],
+                    labels: [{% for item in threedata %}'{{ item.labels }}',{% endfor %}],
                     datasets: [{
                         label: {% for item in name %}'{{ item.name }}'{%endfor%},
-                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        data: [{% for item in twelvedata %}'{{ item.data }}',{% endfor %}],
                         backgroundColor: [
                             '#2ec4b6'
                         ],
@@ -79,18 +80,19 @@
                     }
                 }
             });
+            // Chart элемент PIE
             let pie = document.getElementById('myPie').getContext('2d');
             let myPie = new Chart(pie, {
                 type: 'pie',
                 data: {
-                    labels: ["January", "February", "March"],
+                    labels: [{% for item in threedata %}'{{ item.labels }}',{% endfor %}],
                     datasets: [{
                         label: {% for item in name %}'{{ item.name }}'{%endfor%},
-                        data: [21, 32, 12],
+                        data: [{% for item in twelvedata %}'{{ item.data }}',{% endfor %}],
                         backgroundColor: [
-                            {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
+                            {% for item in otherdata %}'{{ item.backgroundColor }}',{% endfor %}
                         ],
-                        borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
+                        borderColor: [{% for item in otherdata %}'{{ item.borderColor }}',{% endfor %}],
                         borderWidth: 1
                     }]
                 },
@@ -104,29 +106,28 @@
                     }
                 }
             });
-            let scatter = document.getElementById('myScatter').getContext('2d');
-            let myScatter = new Chart(scatter, {
+            // Chart элемент MIXED
+            let mixed = document.getElementById('myMixed').getContext('2d');
+            let myMixed = new Chart(mixed, {
                 type: 'bar',
                 data: {
+                    labels: [{% for item in threedata %}'{{ item.labels }}',{% endfor %}],
                     datasets: [{
                         label: 'Bar Income',
-                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
-                        // this dataset is drawn below
+                        data: [{% for item in twelvedata %}'{{ item.data }}',{% endfor %}],
                         backgroundColor: [
-                            {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
+                            {% for item in otherdata %}'{{ item.backgroundColor }}',{% endfor %}
                         ],
                         order: 1
                     }, {
                         label: 'Line Income',
-                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        data: [{% for item in twelvedata %}'{{ item.data }}',{% endfor %}],
                         type: 'line',
-                        // this dataset is drawn on top
                         backgroundColor: [
                             'rgba(29, 210, 255, 0.364)'
                         ],
                         order: 2
                     }],
-                    labels: ["January", "February", "March"],
                 },
                 options: {
                     scales: {
@@ -138,38 +139,38 @@
                     }
                 }
             });
-
-            document.querySelector('.twelve').addEventListener('click', ()=>{
-                myScatter.data.labels = [{% for item in qs %}'{{ item.labels }}',{% endfor %}]
-                myBar.data.labels = [{% for item in qs %}'{{ item.labels }}',{% endfor %}]
-                myLine.data.labels = [{% for item in qs %}'{{ item.labels }}',{% endfor %}]
-                myPie.data.labels = [{% for item in qs %}'{{ item.labels }}',{% endfor %}]
-                myPie.data.datasets[0].data = [{% for item in qs %}'{{ item.data }}',{% endfor %}]
-                myLine.update()
+            document.querySelector('.three').addEventListener('click', ()=>{
+                myBar.data.labels = [{% for item in threedata %}'{{ item.labels }}',{% endfor %}]
+                myLine.data.labels = [{% for item in threedata %}'{{ item.labels }}',{% endfor %}]
+                myMixed.data.labels = [{% for item in threedata %}'{{ item.labels }}',{% endfor %}]
+                myPie.data.labels = [{% for item in threedata %}'{{ item.labels }}',{% endfor %}]
+                myPie.data.datasets[0].data = [{% for item in threedata %}'{{ item.data }}',{% endfor %}]
                 myBar.update()
-                myScatter.update()
+                myLine.update()
+                myMixed.update()
                 myPie.update()
             });
             document.querySelector('.six').addEventListener('click', ()=>{
-                myBar.data.labels = ["January", "February", "March", "April", "May", "June"]
-                myLine.data.labels = ["January", "February", "March", "April", "May", "June"]
-                myScatter.data.labels = ["January", "February", "March", "April", "May", "June"]
-                myPie.data.labels = ["January", "February", "March", "April", "May", "June"]
-                myPie.data.datasets[0].data = [21, 32, 12, 67, 75, 64]
+                myBar.data.labels = [{% for item in sixdata %}'{{ item.labels }}',{% endfor %}]
+                myLine.data.labels = [{% for item in sixdata %}'{{ item.labels }}',{% endfor %}]
+                myMixed.data.labels = [{% for item in sixdata %}'{{ item.labels }}',{% endfor %}]
+                myPie.data.labels = [{% for item in sixdata %}'{{ item.labels }}',{% endfor %}]
+                myPie.data.datasets[0].data = [{% for item in sixdata %}'{{ item.data }}',{% endfor %}]
                 myBar.update()
                 myLine.update()
-                myScatter.update()
+                myMixed.update()
                 myPie.update()
             });
-            document.querySelector('.three').addEventListener('click', ()=>{
-                myBar.data.labels = ["January", "February", "March"]
-                myLine.data.labels = ["January", "February", "March"]
-                myScatter.data.labels = ["January", "February", "March"]
-                myPie.data.labels = ["January", "February", "March"]
-                myPie.data.datasets[0].data = [21, 32, 12]
-                myBar.update()
+
+            document.querySelector('.twelve').addEventListener('click', ()=>{
+                myMixed.data.labels = [{% for item in twelvedata %}'{{ item.labels }}',{% endfor %}]
+                myBar.data.labels = [{% for item in twelvedata %}'{{ item.labels }}',{% endfor %}]
+                myLine.data.labels = [{% for item in twelvedata %}'{{ item.labels }}',{% endfor %}]
+                myPie.data.labels = [{% for item in twelvedata %}'{{ item.labels }}',{% endfor %}]
+                myPie.data.datasets[0].data = [{% for item in twelvedata %}'{{ item.data }}',{% endfor %}]
                 myLine.update()
-                myScatter.update()
+                myBar.update()
+                myMixed.update()
                 myPie.update()
             });
 
