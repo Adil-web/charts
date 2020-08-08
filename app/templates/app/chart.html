@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{%block title %}Datas{% endblock title %}
+{%block title %}Charts{% endblock title %}
 
 {% block bar %}
     <canvas id="myBar"></canvas>
@@ -17,10 +17,6 @@
     <canvas id="myScatter"></canvas>
 {% endblock scatter %}
 
-{% block bubble %}
-    <canvas id="mypolarArea"></canvas>
-{% endblock bubble %}
-
 {%block scripts %}
     <script>
         document.addEventListener("DOMContentLoaded", function(event) { 
@@ -28,7 +24,7 @@
             let myBar = new Chart(bar, {
                 type: {% for item in type %}'{{ item.chartType }}',{% endfor %}
                 data: {
-                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                    labels: ["January", "February", "March"],
                     datasets: [{
                         label: {% for item in name %}'{{ item.name }}'{%endfor%},
                         data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
@@ -50,11 +46,12 @@
                     }
                 }
             });
+            
             let line = document.getElementById('myLine').getContext('2d');
             let myLine = new Chart(line, {
                 type: 'line',
                 data: {
-                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                    labels: ["January", "February", "March"],
                     datasets: [{
                         label: {% for item in name %}'{{ item.name }}'{%endfor%},
                         data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
@@ -68,7 +65,7 @@
                         hoverBackgroundColor: '#e71d36',
                         hoverBorderWidth: 15,
                         pointStyle: 'rectRot',
-                        
+                        fill: false
                     }]
                 },
                 options: {
@@ -86,47 +83,18 @@
             let myPie = new Chart(pie, {
                 type: 'pie',
                 data: {
-                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                    labels: ["January", "February", "March"],
                     datasets: [{
                         label: {% for item in name %}'{{ item.name }}'{%endfor%},
-                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
+                        data: [21, 32, 12],
                         backgroundColor: [
                             {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
                         ],
                         borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
-                        borderWidth: 1,
+                        borderWidth: 1
                     }]
                 },
                 options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
-            let polarArea = document.getElementById('mypolarArea').getContext('2d');
-            let mypolarArea= new Chart(polarArea, {
-                type: 'polarArea',
-                data: {
-                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
-                    datasets: [{
-                        label: {% for item in name %}'{{ item.name }}'{%endfor%},
-                        data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
-                        backgroundColor: [
-                            {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
-                        ],
-                        borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
-                        borderWidth: 1,
-                        
-                    }]
-                },
-                options: {
-                    animation: {
-                        animateRotate: true
-                    },
                     scales: {
                         yAxes: [{
                             ticks: {
@@ -141,7 +109,7 @@
                 type: 'bar',
                 data: {
                     datasets: [{
-                        label: 'Bar Dataset',
+                        label: 'Bar Income',
                         data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
                         // this dataset is drawn below
                         backgroundColor: [
@@ -149,7 +117,7 @@
                         ],
                         order: 1
                     }, {
-                        label: 'Line Dataset',
+                        label: 'Line Income',
                         data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
                         type: 'line',
                         // this dataset is drawn on top
@@ -158,21 +126,8 @@
                         ],
                         order: 2
                     }],
-                    labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
+                    labels: ["January", "February", "March"],
                 },
-                // type: 'scatter',
-                // data: {
-                //     labels: [{% for item in qs %}'{{ item.labels }}',{% endfor %}],
-                //     datasets: [{
-                //         label: {% for item in name %}'{{ item.name }}'{%endfor%},
-                //         data: [{% for item in qs %}'{{ item.data }}',{% endfor %}],
-                        // backgroundColor: [
-                        //     {% for item in qs %}'{{ item.backgroundColor }}',{% endfor %}
-                        // ],
-                        // borderColor: [{% for item in qs %}'{{ item.borderColor }}',{% endfor %}],
-                //         borderWidth: 3
-                //     }]
-                // },
                 options: {
                     scales: {
                         yAxes: [{
@@ -183,7 +138,41 @@
                     }
                 }
             });
-            
+
+            document.querySelector('.twelve').addEventListener('click', ()=>{
+                myScatter.data.labels = [{% for item in qs %}'{{ item.labels }}',{% endfor %}]
+                myBar.data.labels = [{% for item in qs %}'{{ item.labels }}',{% endfor %}]
+                myLine.data.labels = [{% for item in qs %}'{{ item.labels }}',{% endfor %}]
+                myPie.data.labels = [{% for item in qs %}'{{ item.labels }}',{% endfor %}]
+                myPie.data.datasets[0].data = [{% for item in qs %}'{{ item.data }}',{% endfor %}]
+                myLine.update()
+                myBar.update()
+                myScatter.update()
+                myPie.update()
+            });
+            document.querySelector('.six').addEventListener('click', ()=>{
+                myBar.data.labels = ["January", "February", "March", "April", "May", "June"]
+                myLine.data.labels = ["January", "February", "March", "April", "May", "June"]
+                myScatter.data.labels = ["January", "February", "March", "April", "May", "June"]
+                myPie.data.labels = ["January", "February", "March", "April", "May", "June"]
+                myPie.data.datasets[0].data = [21, 32, 12, 67, 75, 64]
+                myBar.update()
+                myLine.update()
+                myScatter.update()
+                myPie.update()
+            });
+            document.querySelector('.three').addEventListener('click', ()=>{
+                myBar.data.labels = ["January", "February", "March"]
+                myLine.data.labels = ["January", "February", "March"]
+                myScatter.data.labels = ["January", "February", "March"]
+                myPie.data.labels = ["January", "February", "March"]
+                myPie.data.datasets[0].data = [21, 32, 12]
+                myBar.update()
+                myLine.update()
+                myScatter.update()
+                myPie.update()
+            });
+
         });
     </script>
 {% endblock scripts %}

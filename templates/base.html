@@ -14,32 +14,39 @@
 </head>
 <body>
     <div class="container">
-        <div class="mx-auto">
+        <div class="col-10 mx-auto">
             <div class="tabs">
                 <div class="tab__nav tabs-nav">
-                    <div class="tab-nav__item is-active" data-tab-name="line"><span class="material-icons">
-                        show_chart
-                        </span></div>
-                    <div class="tab-nav__item" data-tab-name="bar"><span class="material-icons">
+                    <div class="tab-nav__item is-active" data-tab-name="bar"><span class="material-icons">
                         bar_chart
                         </span></div>
-                    <div class="tab-nav__item" data-tab-name="polarArea"><span class="material-icons">
-                        trip_origin
+                    <div class="tab-nav__item" data-tab-name="line">
+                        <span class="material-icons">
+                        show_chart
                         </span></div>
                     <div class="tab-nav__item" data-tab-name="pie"><span class="material-icons">
                         donut_large
                         </span></div>
-                    <div class="tab-nav__item" data-tab-name="scatter"><span class="material-icons">
+                    <div class="tab-nav__item" data-tab-name="mixed"><span class="material-icons">
                         multiline_chart
                         </span></div>
                 </div>
-                <div class="tab is-active line">{%block line %}{% endblock line %}</div>
-                <div class="tab bar">{%block bar %}{% endblock bar %}</div>
-                <div class="tab polarArea">{%block bubble %}{% endblock bubble %}</div>
+                <div class="tab line">
+                    {%block line %}{% endblock line %}
+                </div>
+                <div class="tab is-active bar">
+                    
+                    {%block bar %}{% endblock bar %}
+                </div>
                 <div class="tab pie">{%block pie %}{% endblock pie %}</div>
-                <div class="tab scatter">{%block scatter %}{% endblock scatter %}</div>
+                <div class="tab mixed">{%block scatter %}{% endblock scatter %}</div>
                 </div>
             
+        </div>
+        <div class="col-md-6 offset-md-4" style="padding-bottom: 20px;">
+            <button class="btn btn-success three">3 months</button>
+            <button class="btn btn-success six">6 months</button>
+            <button class="btn btn-success twelve">12 months</button>
         </div>
     </div>
 
