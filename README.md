@@ -5,4 +5,4 @@
 
 # Панель администратора
 1. Перейдите добавьте к адресу /admin пример:(localhost:8000/admin)
-2. Введите логин: ## admin, пороль: <strong>admin260862</strong>
+2. Введите логин: <strong>admin</strong>, пороль: <strong>admin260862</strong>
