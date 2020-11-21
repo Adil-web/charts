@@ -7,4 +7,5 @@
 
 # Панель администратора
 1. Перейдите добавьте к адресу <strong>/admin</strong> пример:(localhost:8000<strong>/admin</strong>)
-2. Введите логин: <strong>admin</strong>, пороль: <strong>admin260862</strong>
+2. Создайте супер юзера: <strong>createsuperuser</strong>
+3. Авторизуйтесь и можете манипулировать с данными
