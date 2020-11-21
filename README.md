@@ -1,3 +1,5 @@
+# Django & Chart js
+
 # Запуск
 1. Открыть консоль зайти в директорию с файлом manage.py
 2. Запустить сервер коммандой <strong>python manage.py runserver</strong>
